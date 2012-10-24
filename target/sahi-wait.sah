@@ -1,0 +1,78 @@
+<browser>(function(b){b(window.__sahi_wait={})})(function(b){var c=function(a){b.waiting=!0;var e;e=setInterval(function(){a()&&(b.waiting=!1,clearInterval(e))},200)};b.__wait=c;var d=function(a){return(a=jQuery(a))&&0<a.length};b.__is_jquery_select_exist=d;b.__is_jquery_select_not_exist=function(a){return!d(a)};b.__wait_jquery_select_not_exist=function(a){c(function(){return!d(a)})};b.__wait_jquery_select_exist=function(a){c(function(){return d(a)})};b.__wait_jquery_select_image_load=function(a){c(function(){var b=
+jQuery(a);if(b&&0<b.length)for(var c=0;c<b.length;c++){var d=b[c];if(!d.clientWidth||!(0<d.clientWidth&&d.clientHeight&&0<d.clientHeight))return!1}return!0})};var f=function(a){a=jQuery(a);if(!a||0===a.length||0<a.parents(":hidden").length)return!1;for(var b=0;b<a.length;b++)if(!a[b].visible())return!1;return!0};b.__wait_jquery_select_visible=function(a){c(function(){f(a)})};b.__wait_jquery_select_invisible=function(a){c(function(){f(a)})};b.waiting=!1});
+</browser>
+
+function __wait_end() {
+	/*
+	 * We could not wait a global variable here, because that
+	 * The _wait(120000, !window.__sahi_wait.waiting) will wait only the parent window,
+	 * but not the pop-up's.
+	 */
+	_log('Start waiting', 'custom');
+	var $waiting, $retry = 0;
+	_set($waiting, window.__sahi_wait.waiting);
+	while($waiting && ($retry < 300)) {
+		_wait(200);
+		_set($waiting, window.__sahi_wait.waiting);
+	}
+	if ($waiting) {
+		_assert(false, 'wait time out');
+	}
+	_log('End waiting', 'custom');
+}
+
+function __wait_exist($selector) {
+	_call(__sahi_wait.__wait_jquery_select_exist($selector));
+	__wait_end();
+}
+
+function __wait_not_exist($selector) {
+	_call(__sahi_wait.__wait_jquery_select_not_exist($selector));
+	__wait_end();
+}
+
+function __wait_ext_window_exist($title) {
+	__wait_exist(".x-window-header-text:contains('" + $title + "')");
+}
+
+function __wait_ext_window_not_exist($title) {
+	__wait_not_exist(".x-window-header-text:contains('" + $title + "')");
+}
+
+function __wait_ext_mask() {
+	__wait_not_exist('.ext-el-mask:visible');
+}
+
+function __wait_ext_mask_in_window($title) {
+	__wait_not_exist(".x-window:has(.x-window-header-text:contains('" + $title + "')) .ext-el-mask:visible");
+}
+
+function __wait_image_load($selector) {
+	_call(__sahi_wait.__wait_jquery_select_image_load($selector));
+	__wait_end();
+}
+
+function __wait_visible($selector) {
+	_call(__sahi_wait.__wait_jquery_select_visible($selector));
+	__wait_end();
+}
+
+function __wait_invisible($selector) {
+	_call(__sahi_wait.__wait_jquery_select_invisible($selector));
+	__wait_end();
+}
+
+function __wait_ext_label_visible($label) {
+	_call(__sahi_wait.__wait_jquery_select_exist(".x-form-item-label:contains('" + $label + "')"));
+	__wait_end();	
+}
+
+function __assert_exist($selector) {
+	_set($ret, __sahi_wait.__is_jquery_select_exist($selector));
+	_assert($ret, 'assert exist failed : ' + $selector);
+}
+
+function __assert_not_exist($selector) {
+	_set($ret, __sahi_wait.__is_jquery_select_not_exist($selector));
+	_assert($ret, 'assert not exist failed : ' + $selector);
+}

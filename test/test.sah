@@ -1,0 +1,7 @@
+_include('../target/sahi-wait.sah');
+_click(_button('wait for element appear'));
+__wait_exist('*:contains(I appear)');
+_alert('"I appear" appeared!');
+_click(_button('wait for element disappear'));
+__wait_not_exist('*:contains(I should disappear)');
+_alert('"I should disappear" disappeared!');

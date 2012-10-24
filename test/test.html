@@ -1,0 +1,11 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Sahi wait</title>
+</head>
+
+<body>
+<script type="text/javascript" src="../lib/jquery-1.8.2.min.js"></script>
+<input type='button' value='wait for element appear' onclick='setTimeout(function() {$("#appear").html("I appear");}, 2000);'></input><div id="appear"></div>
+<input type='button' value='wait for element disappear' onclick='setTimeout(function() {$("#disappear").html("");}, 2000);'></input><div id="disappear">I should disappear</div>
+</body>
+</html>
