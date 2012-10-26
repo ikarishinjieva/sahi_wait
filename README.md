@@ -18,9 +18,11 @@ Run test/test.sah to test test/test.html...
 ## Setup
 1. Make sure your project include jQuery library
 2. Include target/sahi-wait.sah in your sahi script
+
 ```js
 _include('sahi-wait.sah');
 ```
+
 3. Use new wait functions in your sahi script.
 
 ## Apis
